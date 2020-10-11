@@ -1,0 +1,1049 @@
+
+	public function addocitem()
+	{
+		
+		 	
+		   $this->load->library('session');
+		   $query = $this->db->get('PlastNumbers');
+		   $query->result();
+		   $datanumber=$query->result(); 
+		   foreach ($datanumber as $value) 
+			{
+					   if ($this->input->get('docid') =="Invoice") {
+						   $quotationprefix=$value->invoiceprefix ;
+						   $quotationno=$value->invoiceno ;
+					   }else{
+						   $quotationprefix=$value->quotationprefix ;
+						   $quotationno=$value->quotationno ;
+					   }
+						   
+			}  
+		 
+		           $quotationnum=$quotationprefix."/".$quotationno;		
+
+			
+		  $data = array(
+			'docid' => $this->input->get('docid'),
+			'serviceid' => $this->input->get('service'),
+			'projectid' => $this->input->get('projectid'),
+			'closed' =>'N',
+			'quantity' => $this->input->get('quantity'),
+			'notes' => ($this->input->get('servicedescription')."-".$this->input->get('notes')),
+			'unitcost' => $this->input->get('unitcost'),
+			'suminsured' => $this->input->get('sumins'),
+			'commission' => $this->input->get('commission'),
+			'quotationno' => $quotationnum,
+			'totals' => $this->input->get('total'),
+			'duedate' => date('Y-m-d',strtotime($this->input->get('duedate'))),
+			'datecreated' => date('Y-m-d'),		
+			'month' => date('m'),		
+			'staffidno' => $_SESSION['staffidno'],       			
+			);		
+              
+		   $this->db->insert('quotationitem', $data);
+		   echo "Record Successfully Added";
+		   
+		   //Main quotation Details
+		   
+		   $data = array(			
+			'closed' =>'N',
+			'projectid' => $this->input->get('projectid'),
+			'commission' => $this->input->get('commission'),
+			'documentdetails' => ($this->input->get('servicedescription')."-".$this->input->get('notes')),
+			'estimatedamount' => $this->input->get('total'),
+			'suminsured' => $this->input->get('sumins'),
+			'duedate' =>date('Y-m-d',strtotime($this->input->get('duedate'))),
+			'actualamount' => 0,
+			'documentno' =>$quotationnum,
+			'transactiondate' => date('Y-m-d'),
+			'month' => date('m'),
+			'staffidno' => $_SESSION['staffidno'],
+			);		
+              
+		    $this->db->insert('Quotation', $data);
+		   
+			
+						if ($this->input->get('docid') =="Invoice") 
+						{
+							  $PlastNumberdata = array(
+							  'invoiceno' => ($quotationno+1),
+							   );
+						}else{
+							 $PlastNumberdata = array(
+							  'quotationno' => ($quotationno+1),
+							  );
+						}						
+			
+			$this->db->update('PlastNumbers',$PlastNumberdata);
+			
+			
+			//if ($this->input->get('docid') =="Invoice") {
+			if ($this->input->get('docid') =="Quotation") {
+				
+					$updatebudget = array(
+					'targetmet' => 'targetmet'+$this->input->get('total'),						
+					);
+					
+					$this->db->where('month', date('m'));
+					$this->db->update('budget',$updatebudget);		
+			}
+		       echo "Record Successfully Added";
+			
+			
+			 //if ($this->input->get('docid') =="Invoice") { 
+			 if ($this->input->get('docid') =="Invoice") { 
+		       // Update status of the activity
+				$this->load->library('session');
+				$this->load->helper('date');
+				date_default_timezone_set("Africa/Nairobi");
+				$data = array(
+				'projectid' => $this->input->get('projectid'),		
+				//'commission' => $this->input->get('commission'),		
+				'details' =>"Invoice Generated",		
+				'activity' => "Invoice Generated",		
+				'activityid' => 1,		
+				'preparedby' => $_SESSION['staffidno'],		
+				'datecreated' => date('Y-m-d h:m:s'),		
+				'staffidno' => $_SESSION['staffidno'],
+				);		
+			  
+				$this->db->insert('activitytrails', $data);
+				echo "Record Successfully Added";
+			 }else{
+				 
+				 // Update status of the activity
+				$this->load->library('session');
+				$this->load->helper('date');
+				date_default_timezone_set("Africa/Nairobi");
+				$data = array(
+				'projectid' => $this->input->get('projectid'),		
+				'details' =>"Quotation Generated",		
+				'activity' => "Quotation Generated",		
+				'activityid' => 3,		
+				'preparedby' => $_SESSION['staffidno'],		
+				'datecreated' => date('Y-m-d h:m:s'),		
+				'staffidno' => $_SESSION['staffidno'],
+				);		
+			  
+				$this->db->insert('activitytrails', $data);
+				echo "Record Successfully Added";
+			 }
+		  
+	}
+	public function addocitem2()
+	{
+		
+		 	
+		   $this->load->library('session');
+		   $query = $this->db->get('PlastNumbers');
+		   $query->result();
+		   $datanumber=$query->result(); 
+		   foreach ($datanumber as $value) 
+			{
+					   if ($this->input->get('docid') =="Invoice") {
+						   $quotationprefix=$value->invoiceprefix ;
+						   $quotationno=$value->invoiceno ;
+					   }else{
+						   $quotationprefix=$value->quotationprefix ;
+						   $quotationno=$value->quotationno ;
+					   }
+						   
+			}  
+		 
+		           $quotationnum=$quotationprefix."/".$quotationno;		
+
+			
+		  $data = array(
+			'docid' => $this->input->get('docid'),
+			'serviceid' => $this->input->get('service'),
+			'projectid' => $this->input->get('projectid'),
+			'grp' => 'Y',
+			'closed' =>'N',
+			'quantity' => $this->input->get('quantity'),
+			'notes' => ($this->input->get('servicedescription')."-".$this->input->get('notes')),
+			'unitcost' => $this->input->get('unitcost'),
+			'commission' => $this->input->get('commission'),
+			'suminsured' => $this->input->get('sumins'),
+			'quotationno' => $quotationnum,
+			'totals' => $this->input->get('total'),
+			'duedate' => date('Y-m-d',strtotime($this->input->get('duedate'))),
+			'datecreated' => date('Y-m-d'),		
+			'month' => date('m'),		
+			'staffidno' => $_SESSION['staffidno'],       			
+			);		
+              
+		   $this->db->insert('quotationitem', $data);
+		   echo "Record Successfully Added";
+		   
+		   //Main quotation Details
+		   
+		   $data = array(			
+			'closed' =>'N',
+			'grp' =>'Y',
+			'projectid' => $this->input->get('projectid'),
+			'commission' => $this->input->get('commission'),
+			'documentdetails' => ($this->input->get('servicedescription')."-".$this->input->get('notes')),
+			'estimatedamount' => $this->input->get('total'),
+			'suminsured' => $this->input->get('sumins'),
+			'duedate' =>date('Y-m-d',strtotime($this->input->get('duedate'))),
+			'actualamount' => 0,
+			'documentno' =>$quotationnum,
+			'transactiondate' => date('Y-m-d'),
+			'month' => date('m'),
+			'staffidno' => $_SESSION['staffidno'],
+			);		
+              
+		    $this->db->insert('Quotation', $data);
+		   
+			
+						if ($this->input->get('docid') =="Invoice") 
+						{
+							  $PlastNumberdata = array(
+							  'invoiceno' => ($quotationno+1),
+							   );
+						}else{
+							 $PlastNumberdata = array(
+							  'quotationno' => ($quotationno+1),
+							  );
+						}						
+			
+			$this->db->update('PlastNumbers',$PlastNumberdata);
+			
+			
+			//if ($this->input->get('docid') =="Invoice") {
+			if ($this->input->get('docid') =="Quotation") {
+				
+					$updatebudget = array(
+					'targetmet' => 'targetmet'+$this->input->get('total'),						
+					);
+					
+					$this->db->where('month', date('m'));
+					$this->db->update('budget',$updatebudget);		
+			}
+		       echo "Record Successfully Added";
+			
+			
+			 //if ($this->input->get('docid') =="Invoice") { 
+			 if ($this->input->get('docid') =="Invoice") { 
+		       // Update status of the activity
+				$this->load->library('session');
+				$this->load->helper('date');
+				date_default_timezone_set("Africa/Nairobi");
+				$data = array(
+				'projectid' => $this->input->get('projectid'),		
+				//'commission' => $this->input->get('commission'),		
+				'details' =>"Invoice Generated",		
+				'activity' => "Invoice Generated",		
+				'activityid' => 1,		
+				'preparedby' => $_SESSION['staffidno'],		
+				'datecreated' => date('Y-m-d h:m:s'),		
+				'staffidno' => $_SESSION['staffidno'],
+				);		
+			  
+				$this->db->insert('activitytrails', $data);
+				echo "Record Successfully Added";
+			 }else{
+				 
+				 // Update status of the activity
+				$this->load->library('session');
+				$this->load->helper('date');
+				date_default_timezone_set("Africa/Nairobi");
+				$data = array(
+				'projectid' => $this->input->get('projectid'),		
+				'details' =>"Quotation Generated",		
+				'activity' => "Quotation Generated",		
+				'activityid' => 3,		
+				'preparedby' => $_SESSION['staffidno'],		
+				'datecreated' => date('Y-m-d h:m:s'),		
+				'staffidno' => $_SESSION['staffidno'],
+				);			  
+				$this->db->insert('activitytrails', $data);
+				echo "Record Successfully Added";
+			 }
+		  
+	}
+   
+   public function saveproject()
+   {
+	      $serviceid=$this->input->get('serviceid');
+		  $query =$this->db->query("Select * from services where serviceid='{$serviceid}'");
+		  $dataservices=$query->result(); 
+		  $rate=0;
+		  foreach ($dataservices as $value) 
+		  {
+			   $rate=$value->rate;
+		  }
+			
+		$this->load->library('session');
+		$data = array(
+		'projectdescription' => $this->input->get('projectdescription'),
+		'Projectdate' =>date('Y-m-d',strtotime($this->input->get('projectdate'))),		
+		'type' => $this->input->get('type'),
+		'priority' => $this->input->get('priority'),
+		'rate' => $rate,
+		'serviceid' => $this->input->get('serviceid'),
+		'projectduration' => $this->input->get('projectduration'),
+		'clientid' => $this->input->get('client'),
+		'currentyear' =>date('Y',strtotime($this->input->get('projectdate'))),
+		'projectstatus' => 'Started',
+		'staffidno' => $_SESSION['staffidno'],
+		'fstaffid' => $this->input->get('employeeno'),
+		
+	);		
+	  
+	$this->db->insert('projects', $data);
+	echo "Record Successfully Added";
+   }
+   
+   public function savebudget()
+   {
+	      
+		  $mmonth=date('m',strtotime($this->input->get('startdate')));
+          $mcurrentyear=date('Y',strtotime($this->input->get('startdate')));
+		  $query =$this->db->query("Select * from budget where month='{$mmonth}' and currentyear='{$mcurrentyear}'");
+		  $datacheck=$query->result(); 
+		  $i=0;
+		  foreach ($datacheck as $value) 
+		  {
+			   $i=$i+1;
+		  }
+	if ($i==0)
+	{
+		$this->load->library('session');
+		$data = array(		
+		'startdate' =>date('Y-m-d',strtotime($this->input->get('startdate'))),		
+		'enddate' =>date('Y-m-d',strtotime($this->input->get('enddate'))),		
+		'notes' => $this->input->get('notes'),
+		'target' => $this->input->get('targetamount'),		
+		'targetmet' => 0,		
+		'month' =>date('m',strtotime($this->input->get('startdate'))),
+		'currentyear' =>date('Y',strtotime($this->input->get('startdate'))),
+		'period' =>date('F,Y',strtotime($this->input->get('startdate'))),
+		'staffidno' => $_SESSION['staffidno'],
+		
+	);		
+	  
+	$this->db->insert('budget', $data);
+	echo "Record Successfully Added";
+	}else{
+		echo "Month Exist, Please Choose Another Month";
+	}
+   }
+   
+   public function editbudget()
+   {
+	    $this->load->library('session');
+		$data = array(		
+		'startdate' =>date('Y-m-d',strtotime($this->input->get('startdate'))),		
+		'enddate' =>date('Y-m-d',strtotime($this->input->get('enddate'))),		
+		'notes' => $this->input->get('notes'),
+		'target' => $this->input->get('targetamount'),
+		'currentyear' =>date('Y',strtotime($this->input->get('startdate'))),
+		'month' =>date('m',strtotime($this->input->get('startdate'))),
+		'period' =>date('F,Y',strtotime($this->input->get('startdate'))),
+		'staffidno' => $_SESSION['staffidno'],
+		
+	);		
+	$this->db->where('sid',$this->input->get('sid') ); 
+	$this->db->update('budget', $data);
+	echo "Record Successfully Added";
+   }
+   
+   public function updatedoc()
+   {
+	    $this->load->library('session');
+	$data = array(		
+		'dateclosed' =>date('Y-m-d'),	
+		'closed' =>$this->input->get('status'),	
+		'staffidno' => $_SESSION['staffidno'],		
+	);		
+	$this->db->where('documentno',$this->input->get('documentno') ); 
+	$this->db->update('quotation', $data);
+	
+	$data = array(		
+		'dateclosed' =>date('Y-m-d'),	
+		'closed' =>$this->input->get('status'),		
+		'staffidno' => $_SESSION['staffidno'],		
+	);		
+	$this->db->where('quotationno',$this->input->get('documentno') ); 
+	$this->db->update('quotationitem', $data);
+	echo "Document Status Updated";
+   }
+   
+   
+   public function updateticket()
+   {
+	$this->load->library('session');
+	$data = array(		
+		'dateclosed' =>date('Y-m-d'),	
+		'closed' =>$this->input->get('status'),	
+		'closedby' => $_SESSION['staffidno'],		
+	);		
+	$this->db->where('ticketid',$this->input->get('ticketid') ); 
+	$this->db->update('ticket', $data);
+	
+	echo "Ticket Status Updated";
+   }
+   
+   
+   public function saveclient()
+   {
+	    $this->load->library('session');
+		$data = array(
+		'clientname' => $this->input->get('clientname'),
+		'datemodified' =>date('Y-m-d'),		
+		'clienttype' => $this->input->get('clienttype'),
+		'notes' => $this->input->get('notes'),		
+		'staffidno' => $_SESSION['staffidno'],
+		'companycode' => $_SESSION['companycode'],
+		
+	);		
+	  
+	$this->db->insert('clients', $data);
+	echo "Record Successfully Added";
+   }
+   public function saveservice()
+   {
+	    $this->load->library('session');
+		$data = array(
+		'service' => $this->input->get('service'),
+		'rate' => $this->input->get('rate'),
+		'isgroup' =>$this->input->get('group'),
+		'datemodified' =>date('Y-m-d'),
+		'Notes' => $this->input->get('notes'),		
+		'staffidno' => $_SESSION['staffidno'],
+		'companycode' => $_SESSION['companycode'],
+		
+	);		
+	  
+	$this->db->insert('services', $data);
+	echo "Record Successfully Added";
+   } 
+   
+   public function saveserviceg()
+   {
+	      $serviceid=$this->input->get('txtservice');
+	      $projectid=$this->input->get('txtprojectid');
+		  $query =$this->db->query("Select * from templistings where serviceid='{$serviceid}' and projectid='{$projectid}'");
+		  $dataservices=$query->result(); 
+		  $i=0;
+		  $rate=0;
+		  $commission=0;
+		  foreach ($dataservices as $value) 
+		  {
+			   $i=$i+1;
+			   
+		  }
+		  		    
+		  $query =$this->db->query("Select * from services where serviceid='{$serviceid}'");
+		  $datacom=$query->result(); 
+		  foreach ($datacom as $valuec) 
+		  {
+			$rate=$valuec->rate;  
+		  }
+		  
+		 if ($rate==0)
+		 {
+		   $commission=0;
+		 }else{
+		   $rate=$rate/100;
+		   $commission=$this->input->get('txtpremium') * $rate;
+		 }
+         			 
+		if ($i==0)
+		{
+				$this->load->library('session');
+				$data = array(
+				'serviceid' => $this->input->get('txtservice'),
+				'premiumvalue' => $this->input->get('txtpremium'),
+				'qty' =>$this->input->get('txtqty'),
+				'projectid' =>$this->input->get('txtprojectid'),				
+				'suminsured' =>$this->input->get('txtsuminsured'),				
+				'totals' =>($this->input->get('txtqty') * $this->input->get('txtpremium'))  ,		
+				'commission' =>$commission,		
+				'staffidno' => $_SESSION['staffidno'],
+				//'companycode' => $_SESSION['companycode'],
+				
+		);		
+			  
+			$this->db->insert('templistings', $data);
+			echo "Record Successfully Added".$rate.$commission;
+		}else{
+			echo "Record Already Exist";
+		}
+   }
+   
+   public function editservice()
+   {
+	    $this->load->library('session');
+		$data = array(
+		'service' => $this->input->get('service'),
+		'rate' => $this->input->get('rate'),
+		'datemodified' =>date('Y-m-d'),
+		'isgroup' =>$this->input->get('group'),
+		'Notes' => $this->input->get('notes'),		
+		'staffidno' => $_SESSION['staffidno'],
+		'companycode' => $_SESSION['companycode'],
+		
+	);		
+	$this->db->where('serviceid', $this->input->get('serviceid'));   
+	$this->db->update('services', $data);
+	echo "Record Successfully Added";
+   }
+   
+   public function editclient()
+   {
+	    $this->load->library('session');
+		$data = array(
+		'clientname' => $this->input->get('clientname'),		
+		'datemodified' =>date('Y-m-d'),		
+		'clienttype' => $this->input->get('clienttype'),
+		'notes' => $this->input->get('notes'),		
+		'staffidno' => $_SESSION['staffidno'],
+		'companycode' => $_SESSION['companycode'],
+		
+	);		
+	$this->db->where('clientid', $this->input->get('clientid'));  
+	$this->db->update('clients', $data);
+	echo "Record Successfully Added";
+   }
+   public function savecontact()
+   {
+		$this->load->library('session');
+		$data = array(
+		'contactname' => $this->input->get('contactname'),
+		'phoneno' =>$this->input->get('phoneno'),		
+		'companyphoneno' => $this->input->get('companyphoneno'),
+		'emailaddress' => $this->input->get('emailaddress'),
+		'alternatephoneno' => $this->input->get('alternatephoneno'),		
+		'physicaladdress' => $this->input->get('physicaladdress'),		
+		'notes' => $this->input->get('notes'),		
+		'staffidno' => $_SESSION['staffidno'],		
+		);		
+	  
+	$this->db->insert('contacts', $data);
+	echo "Record Successfully Added";
+   }
+   
+   public function saveagency()
+   {
+		$this->load->library('session');
+		$data = array(
+		'agencycode' => $this->input->get('code'),
+		'short' => $this->input->get('short'),
+		'phone' =>$this->input->get('phoneno'),		
+		'description' => $this->input->get('description'),
+		'email' => $this->input->get('emailaddress'),				
+		'notes' => $this->input->get('notes'),		
+		'staffidno' => $_SESSION['staffidno'],		
+		);		
+	  
+	$this->db->insert('agency', $data);
+	echo "Record Successfully Added";
+   }
+   
+   
+   public function editcontact()
+   {
+		$this->load->library('session');
+		$data = array(
+		'contactname' => $this->input->get('contactname'),
+		'phoneno' =>$this->input->get('phoneno'),		
+		'companyphoneno' => $this->input->get('companyphoneno'),
+		'emailaddress' => $this->input->get('emailaddress'),
+		'alternatephoneno' => $this->input->get('alternatephoneno'),		
+		'physicaladdress' => $this->input->get('physicaladdress'),		
+		'notes' => $this->input->get('notes'),		
+		'staffidno' => $_SESSION['staffidno'],		
+		);		
+	 $this->db->where('contactid',$this->input->get('contactid'));  
+	$this->db->update('contacts', $data);	
+	echo "Record Successfully Added";
+   }
+   
+   public function savetask()
+   {
+	    $this->load->library('session');
+		$this->load->helper('date');		
+		date_default_timezone_set("Africa/Nairobi");
+		$trailid=$this->input->get('trailid');
+		if ($trailid=="")
+		{
+		//$date = date_create($this->input->get('reminderdate'));
+		//$date = date_format($date,'Y-m-d');
+		 
+		$data = array(
+		'projectid' => $this->input->get('projectid'),		
+		'actedon' => $this->input->get('R'),		
+		'details' =>$this->input->get('notes'),		
+		'activity' => $this->input->get('activity'),		
+		'activityid' => $this->input->get('activityid'),		
+		'preparedby' => $_SESSION['staffidno'],		
+		'datecreated' => date('Y-m-d h:m:s'),		
+		'staffidno' => $_SESSION['staffidno'],
+		//'reminderdate' =>$date,
+		'reminderdate' => date('Y-m-d'),
+		'reminder' => $this->input->get('reminder'),
+		
+	);	
+			  
+	$this->db->insert('activitytrails', $data);
+	echo "Record Successfully Added";
+	
+	}else{
+		
+		$data = array(				
+		'actedon' => $this->input->get('R'),		
+		'detailsreply' =>$this->input->get('notes'),
+        'actedreminderdate' => date('Y-m-d h:m:s'),
+		
+	);	
+	$this->db->where('trailid', $trailid);  
+	$this->db->update('activitytrails', $data);
+	echo "Record Successfully Added";
+	}
+   }
+
+   
+   
+   public function editproject()
+   {
+	    		 		
+		$this->load->library('session');
+		$data = array(
+		'projectdescription' => $this->input->get('projectdescription'),
+		'Projectdate' =>date('Y-m-d',strtotime($this->input->get('projectdate'))),		
+		'type' => $this->input->get('type'),
+		'priority' => $this->input->get('priority'),
+		'projectduration' => $this->input->get('projectduration'),
+		'clientid' => $this->input->get('client'),
+		'notes' => $this->input->get('notes'),
+		'currentyear' =>date('Y',strtotime($this->input->get('projectdate'))),
+		'staffidno' => $_SESSION['staffidno'],	
+		'fstaffid' => $this->input->get('employeeno'),
+		);
+		
+	$this->db->where('projectid', $this->input->get('projectid'));  
+	$this->db->update('projects', $data);
+	echo "Record Successfully Added";
+   }
+   
+   public function savecover()
+   {
+	      $serviceid=$this->input->get('txtclass');
+	      $projectid=$this->input->get('txtprojectid');
+	      $insurance=$this->input->get('txtinsurance');
+		  $query =$this->db->query("Select * from insuranceanalysis where serviceid='{$serviceid}' and projectid='{$projectid}' and insurancefarm='{$insurance}'");
+		  $dataservices=$query->result(); 
+		  $i=0;
+		  
+		  foreach ($dataservices as $value) 
+		  {
+			   $i=$i+1;
+			   
+		  }
+		if ($i==0)
+		{
+		$this->load->library('session');
+		$data = array(
+		'clientid' => $this->input->get('txtclient'),
+		'insurancefarm' =>$this->input->get('txtinsurance'),		
+		'premiumvalue' => $this->input->get('txtpremium'),
+		'suminsured' => $this->input->get('txtsuminsured'),
+		'projectid' => $this->input->get('txtprojectid'),		
+		'serviceid' => $this->input->get('txtclass'),		
+		'staffidno' => $_SESSION['staffidno'],		
+		);		
+	  
+		   $this->db->insert('insuranceanalysis', $data);
+		  echo "Record Successfully Added";
+		}else{
+			echo "Record Exist";
+		}
+   }
+   
+   public function saveticket()
+   {
+	  
+		
+		$this->load->helper('email');
+		$this->load->library('session');
+		$recipient="geofrey@fortunekenya.com";
+		$subject="Salessoft:New Ticket Alert!";
+		$message=$this->input->get('notes');
+		$email="geofrey@fortunekenya.com";
+		
+		$headers = 'From: ' .$email . "\r\n". 
+	   'Reply-To: ' . $recipient. "\r\n" . 
+	   'X-Mailer: PHP/' . phpversion();
+	  
+	    
+		$data = array(
+		
+		'closed' =>"N",		
+		'ticketdetails' =>$this->input->get('notes'),		
+		'ticketdate' => date('Y-m-d',strtotime($this->input->get('ticketdate'))),			
+		'staffidno' => $this->input->get('employeeno'),		
+		'createdby' => $_SESSION['staffidno'],		
+		);		
+	  
+	     $this->db->insert('ticket', $data);
+	      $employeeno=$this->input->get('employeeno');
+	     
+		 $query =$this->db->query("Select * from employee where staffidno='{$employeeno}'");
+		  $datacom=$query->result(); 
+		  foreach ($datacom as $valuec) 
+		  {
+			$recipient=$valuec->email;  
+		  }
+	
+    	if (mail($recipient, $subject, $message,$headers))
+	    {
+		 echo "Mail Sent and Ticket Open Successfully".$recipient;
+		}else{
+		 echo "Mail Not Sent";
+		}
+		
+   }
+
+   public function savemeeting()
+   {
+	  	 					
+		$this->load->library('session');
+		$this->load->helper('email');		
+		$recipient="geofrey@fortunekenya.com";
+		$subject="Salessoft:New Meeting Alert!";
+		//$message = '<html><body>';
+		$message="Date:".date('Y-m-d',strtotime($this->input->get('meetingstartdate')))." Time: " .date('h:i:s a',strtotime($this->input->get('meetingstarttime')))."\n Location : ". $this->input->get('location') ." \n ".$this->input->get('notes');
+		//$message .= '</body></html>';
+		$email="geofrey@fortunekenya.com";
+		
+	    $headers = 'From: ' .$email . "\r\n". 
+	   'Reply-To: ' . $recipient. "\r\n" . 
+	   'X-Mailer: PHP/' . phpversion();
+	   
+	   
+		$data = array(
+		
+		'closed' =>"N",		
+		'meetingdetails' =>$this->input->get('notes'),		
+		'meetingstartdate' => date('Y-m-d',strtotime($this->input->get('meetingstartdate'))),			
+		'meetingenddate' => date('Y-m-d',strtotime($this->input->get('meetingenddate'))),			
+		'meetingstarttime' => date('h:i:s a',strtotime($this->input->get('meetingstarttime'))),			
+		'meetingendtime' => date('h:i:s a',strtotime($this->input->get('meetingendtime'))),			
+		'agenda' => $this->input->get('agenda'),			
+		'location' => $this->input->get('location'),			
+		'status' => $this->input->get('status'),			
+		//'staffidno' => $this->input->get('employeeno'),		
+		'createdby' => $_SESSION['staffidno'],		
+		);		
+	  
+	      $this->db->insert('meeting', $data);	
+		  
+		  $query =$this->db->query("Select * from employee");
+		  $datacom=$query->result(); 
+		  foreach ($datacom as $valuec) 
+		  {
+			    $recipient=$valuec->email;  
+			    if (mail($recipient, $subject, $message,$headers))
+				{
+				   echo "Mail Sent and Ticket Open Successfully".$recipient;
+				}else{
+				   echo "Mail Not Sent";
+				}
+		  }    	
+	
+	     echo "Record Successfully Added";
+   }
+   
+   public function editmeeting()
+   {
+	  	$this->load->library('session');
+		$this->load->helper('email');		
+		$recipient="geofrey@fortunekenya.com";
+		$subject="Salessoft:New Meeting Change Alert!";
+		//$message = '<html><body>';
+		$message="Date:".date('Y-m-d',strtotime($this->input->get('meetingdate')))." \n ".$this->input->get('notes');
+		//$message .= '</body></html>';
+		$email="geofrey@fortunekenya.com";
+		
+	    $headers = 'From: ' .$email . "\r\n". 
+	   'Reply-To: ' . $recipient. "\r\n" . 
+	   'X-Mailer: PHP/' . phpversion();	   
+	   
+		$data = array(		
+		//'closed' =>"N",		
+		'meetingdetails' =>$this->input->get('notes'),		
+		'meetingdate' => date('Y-m-d',strtotime($this->input->get('meetingdate'))),			
+		//'staffidno' => $this->input->get('employeeno'),		
+		'createdby' => $_SESSION['staffidno'],		
+		);		
+	  
+	$this->db->where('meetingtid', $this->input->get('meetingtid')); 
+	$this->db->update('meeting', $data);
+	
+	      $query =$this->db->query("Select * from employee");
+		  $datacom=$query->result(); 
+		  foreach ($datacom as $valuec) 
+		  {
+			    $recipient=$valuec->email;  
+			    if (mail($recipient, $subject, $message,$headers))
+				{
+				   echo "Mail Sent and Ticket Open Successfully";
+				}else{
+				   echo "Mail Not Sent";
+				}
+		  }    	
+	
+	echo "Meeting Records Updated";
+   }
+   
+   public function updatemeet()
+   {
+	  	$this->load->library('session');
+		$this->load->helper('email');		
+		$recipient="geofrey@fortunekenya.com";
+		$subject="Salessoft:New Meeting Outcome Alert!";
+		//$message = '<html><body>';
+		$message="Date:".date('Y-m-d',strtotime($this->input->get('meetingdate')))." \n ".$this->input->get('notes');
+		//$message .= '</body></html>';
+		$email="geofrey@fortunekenya.com";
+		
+	    $headers = 'From: ' .$email . "\r\n". 
+	   'Reply-To: ' . $recipient. "\r\n" . 
+	   'X-Mailer: PHP/' . phpversion();	 
+	   
+		$data = array(		
+		//'closed' =>"N",		
+		'details' =>$this->input->get('notes'),		
+		'meetingid' =>$this->input->get('meetingid'),		
+		'meetingdate' => date('Y-m-d',strtotime($this->input->get('meetingdate'))),			
+		//'staffidno' => $this->input->get('employeeno'),		
+		'createdby' => $_SESSION['staffidno'],		
+		);		
+	  	 
+	    $this->db->insert('meetingdetails', $data);
+	
+	      $query =$this->db->query("Select * from employee");
+		  $datacom=$query->result(); 
+		  foreach ($datacom as $valuec) 
+		  {
+			    $recipient=$valuec->email;  
+			    if (mail($recipient, $subject, $message,$headers))
+				{
+				   echo "Mail Sent and Ticket Open Successfully";
+				}else{
+				   echo "Mail Not Sent";
+				}
+		  }    	
+		  
+	     echo "Record Updated";
+   }
+   
+   public function editticket()
+   {
+	  
+		$this->load->library('session');
+		$data = array(
+		
+		'ticketdetails' =>$this->input->get('notes'),		
+		'ticketdate' => date('Y-m-d',strtotime($this->input->get('ticketdate'))),			
+		'staffidno' => $this->input->get('employeeno'),		
+		'createdby' => $_SESSION['staffidno'],		
+		);		
+	 $this->db->where('ticketid', $this->input->get('ticketid')); 
+	$this->db->update('ticket', $data);
+	echo "Record Successfully Added";
+   } 
+   public function savemsg()
+   {
+	  
+		$this->load->library('session');
+		$data = array(		
+		'message' =>$this->input->get('msgtext'),		
+		'ticketid' =>$this->input->get('ticketid'),		
+		'datemsg' => date('Y-m-d'),			
+		'staffidno' => $_SESSION['staffidno'],		
+		'createdby' => $_SESSION['staffidno'],		
+		);		
+	 
+	$this->db->insert('tickettrail', $data);
+	echo "Record Successfully Added";
+   }
+   
+   
+	
+	
+	
+	
+   
+   function importclassdata()
+   {
+	    
+	    $efile=$this->input->get('ffile');	
+		echo $efile;
+        if ($efile=="")			
+		{
+			 echo "File Empty";
+		}else{
+			
+					
+		$objPHPExcel = PHPExcel_IOFactory::load($efile);
+		$allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);		
+		$arrayCount = count($allDataInSheet); // Total Number of rows in the uploaded EXCEL file
+		//print_r($allDataInSheet);
+		            //start Importing
+					$string = "INSERT INTO insuranceanalysis (clientid,insurancefarm, premiumvalue, suminsured,projectid,serviceid,staffidno,levies) VALUES ";
+					
+					for($i=2;$i<=$arrayCount;$i++)
+					{
+
+							$serviceid= trim($allDataInSheet[$i]["A"]);
+							$clientid=$this->input->get('clientid');
+							$projectid=$this->input->get('projectid');
+							$insurance=$this->input->get('insurance');							
+							//$suminsured= (intval(trim($allDataInSheet[$i]["C"])));
+							$suminsured=preg_replace('/[^0-9]/', '', $allDataInSheet[$i]["C"]);
+							$premiumvalue=preg_replace('/[^0-9]/', '', $allDataInSheet[$i]["D"]);
+							$levies=preg_replace('/[^0-9]/', '', $allDataInSheet[$i]["E"]);							
+							//$premiumvalue= (intval(trim($allDataInSheet[$i]["D"])));						
+							//$levies= (intval(trim($allDataInSheet[$i]["E"])));						
+							
+							//set classes to generated
+							$stringsql = "update classsend set generated='Y' WHERE serviceid='{$serviceid}' and insurancefarm='{$insurance}' and staffidno='".$_SESSION['staffidno']."'";
+							$this->db->query($stringsql);
+							echo $serviceid.' '.$clientid.' '.$projectid.' '.$suminsured.' '.$premiumvalue.'<br>' ;
+					
+					$string .= "( '".$clientid."' , '".$insurance ."','".$premiumvalue ."','".$suminsured."','".$projectid."','".$serviceid."','".$_SESSION['staffidno']."','".$levies."' ),";
+					}
+					$string = substr($string,0,-1);
+					$this->db->query($string);
+					//echo $string;
+					///mysql_query($string); // Insert all the data into one query
+					//}
+					//}// End Invalid Condition
+					echo "<div style='color:#3C7C64'>Import Succesfully</div>";
+					//}
+
+      }
+	
+	}
+	
+	
+	function addforexport()
+    {
+	   $this->load->library('session');
+	   $insurance=$this->input->get('txtinsurance');
+	   $notes=$this->input->get('notes');
+	   $suminsured=$this->input->get('txtsuminsured');
+	   $levies=0;
+	   $item=explode(",",$this->input->get('item'));
+	   $insurancem=explode(",",$this->input->get('txtinsurance'));
+	   foreach ($insurancem as $insurancem)
+	   {
+	   $insurance=$insurancem;
+	   $excute=false;
+	   $string = "INSERT INTO classsend (insurancefarm, premiumvalue, suminsured,serviceid,servicedetails,staffidno,levies) VALUES "; 
+	   foreach ($item as $serviceid){
+						  $query =$this->db->query("Select * from services where serviceid='{$serviceid}'");
+						  $datacom=$query->result(); 
+						  foreach ($datacom as $valuec) 
+						  {	
+						      $servicedetails=$valuec->service;
+						  }
+						  if ($notes=="")
+						  {
+						  }else{
+							 $servicedetails=$servicedetails."-".$notes ;
+						  }
+						  $query =$this->db->query("Select * from classsend where insurancefarm='{$insurance}' and staffidno='".$_SESSION['staffidno']."' and generated is null and Serviceid='{$serviceid}'");
+						  $data=$query->result();
+						  $i=0;
+						   foreach ($data as $valuem) 
+						  {	
+							$i=$i+1;
+						  }
+							if ($i==0)
+							{
+							    $excute=true;
+								$string .= "( '".$insurance ."','0','".$suminsured."','".$serviceid."','".$servicedetails."','".$_SESSION['staffidno']."','".$levies."' ),"; 
+						    }
+	   }
+	  //insert record;
+	  if ($excute==true)
+	  {
+	   $string = substr($string,0,-1);	  
+       $this->db->query($string);
+	}else{
+		echo "records exist";
+	}
+	  
+          
+	}
+	}
+	
+	function generateexl()
+    {
+	   $this->load->library('session');
+	   $insurance=$this->input->get('txtinsurance');
+	   $insurancem=explode(",",$this->input->get('txtinsurance'));
+	   foreach ($insurancem as $insurancem)
+	   {
+	   $insurance=$insurancem;
+	   //$suminsured=$this->input->get('txtsuminsured');
+	  // $item=explode(",",$this->input->get('item'));
+	  // $string = "INSERT INTO classsend (insurancefarm, premiumvalue, suminsured,serviceid,servicedetails,staffidno) VALUES "; 
+	  // foreach ($item as $serviceid){
+						//  $query =$this->db->query("Select * from services where serviceid='{$serviceid}'");
+						  //$datacom=$query->result(); 
+						  //foreach ($datacom as $valuec) 
+						 // {	
+						 //     $servicedetails=$valuec->service;
+						 // }
+//$string .= "( '".$insurance ."','0','".$suminsured."','".$serviceid."','".$servicedetails."','".$_SESSION['staffidno']."' ),"; 
+						
+	   //}
+	  //insert record;
+	  // $string = substr($string,0,-1);
+//echo $string;
+      // $this->db->query($string);
+      
+       ?>
+          <table class="table" width="100%" id="export">
+		     <thead>
+			      
+		          <tr>
+				       <th>Code</th>
+				       <th>Class</th>
+				       <th>Sum Insured</th>
+				       <th><?php echo $insurance; ?>( Premium)</th>
+				       <th>Levies</th>
+				  </tr> 
+				  <tbody>
+				  <?php 
+				   
+                          $query =$this->db->query("Select * from classsend where insurancefarm='{$insurance}' and staffidno='".$_SESSION['staffidno']."' and generated is null");
+						  $datacom=$query->result(); 
+						  foreach ($datacom as $valuec) 
+						  {					
+				   ?>
+				  <tr>
+				       <td><?php echo $valuec->serviceid;?>  </td>
+				       <td><?php echo $valuec->servicedetails;?></td>
+				       <td><?php echo $valuec->suminsured; ?></td>
+				       <td>0</td>
+				       <td>0</td>
+				  </tr>
+				  <?php
+						}
+						
+					?>
+				  </tbody>
+			 </thead>
+		  </table>
+	   <?php
+	  
+          
+	}
+	
+	}
