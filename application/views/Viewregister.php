@@ -19,7 +19,7 @@
 		     <!--links --->
 			  <div class="row " style="border-bottom:1px solid blue;padding:3px; margin:5px;">
 				<div class="btn-set pull-right">
-					<a href="<?php echo base_url(); ?>Attendanceregister" class="btn  blue bold"><i class="fa fa-plus"></i>Go to Unit/Class Reporting</a>
+					<a href="<?php echo base_url(); ?>Attendanceregister/classregister" class="btn  blue bold"><i class="fa fa-plus"></i>Go to Unit/Class Reporting</a>
 
 				</div>
 			 </div>

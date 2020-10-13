@@ -139,20 +139,23 @@ foreach ($datadesig as $value) {
     $course_id = $value->course_id;
     $unit = $value->unit;
     $regno = $_SESSION['regno'];
-    $query = $this->db->query("Select * from attendancemaster where course_id='{$course_id}' and unit='{$unit}' and regno='{$regno}'");
+    $datesign = date("Y-m-d", strtotime($value->lessondate));
+    $query = $this->db->query("Select * from attendancemaster where course_id='{$course_id}' and unit='{$unit}' and regno='{$regno}' and signindate='{$datesign}'");
     $data2 = $query->result();
     $k = 0;
 
+    $absent = "N";
+    $present = "Y";
+    $Leave = "N";
+
     if ($query->num_rows() > 0) {
         $k = 1;
-        $absent = "NO";
-        $present = "Yes";
-        $Leave = "No";
 
-    } else {
-        $absent = "NO";
-        $present = "NO";
-        $Leave = "No";
+        foreach ($data2 as $val) {
+            $absent = $val->absent;
+            $present = $val->present;
+            $Leave = $val->leave;
+        }
 
     }
     ?>
@@ -164,7 +167,7 @@ foreach ($datadesig as $value) {
 																						<?php echo $value->description; ?>
 																						</td>
 																						<td>
-																							<?php echo $value->lessondate; ?>
+																							<?php echo $value->lessondate . "" . date('1'); ?>
 																						</td>
 																						<td>
 																							<?php echo $value->lessontime; ?>
@@ -174,7 +177,9 @@ foreach ($datadesig as $value) {
 																						</td>
 																						<td>
 																						<?php
-echo $present;
+
+    echo $present;
+
     ?>
 																						</td>
 																						<td>
@@ -196,7 +201,7 @@ if ($k == 1) {
         ?>
 	<button  class="btn blue" onclick="register('<?php echo $_SESSION['regno']; ?>','<?php echo $value->course_id; ?>','<?php echo $value->unit; ?>','<?php echo $value->roomnumber; ?>','<?php echo $value->lessontime; ?>','<?php echo $value->lessondate; ?>');" id="<?php echo $i++; ?>"><i class="fa fa-check"></i> sign in</button>
 	<?php
-} elseif ((date("Y-m-d", strtotime($value->lessondate)) < date("Y-m-d")) and ($present == "NO")) {
+} elseif ((date("Y-m-d", strtotime($value->lessondate)) < date("Y-m-d")) and $value->lessondate != null and ($present == "N")) {
         ?>
 	     Missed
 	<?php
