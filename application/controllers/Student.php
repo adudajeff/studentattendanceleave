@@ -92,6 +92,8 @@ class Student extends CI_Controller
             $row[] = $student->email;
             $row[] = $student->admission_date;
             $row[] = $student->mobile;
+            $row[] = $student->year;
+
             $row[] = "<a href='" . $urlb . "' class='label label-sm label-success'><i class='fa fa-edit'></i>Edit Record</a>";
             $row[] = "<a href='javascript:;' class='label label-sm label-danger'  onclick=deleterecord('student','id','$student->id')><i class='fa fa-trash-o'></i>Delete</a>";
 

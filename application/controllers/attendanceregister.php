@@ -36,7 +36,7 @@ class Attendanceregister extends CI_Controller
     public function classregister()
     {
         if (isset($_SESSION['login'])) {
-            //$this->load->library('session');
+
             $this->load->view('header/header');
             $this->load->view('student/loadnewregister');
             $this->load->view('footer/footer');
@@ -60,14 +60,18 @@ class Attendanceregister extends CI_Controller
             $row[] = "";
             $row[] = $no;
             $row[] = $master->regno;
+            $row[] = $master->name;
             $row[] = $master->unit;
             $row[] = $master->course_id;
             $row[] = $master->signindate;
             $row[] = $master->time;
             $row[] = $master->room;
             $row[] = $master->status;
+            $row[] = $master->absent;
+            $row[] = $master->present;
+            $row[] = $master->leave;
             $row[] = "<a href='" . $urlb . "' class='label label-sm label-success'><i class='fa fa-edit'></i>Edit Record</a>";
-            $row[] = "<a href='javascript:;' class='label label-sm label-danger'  onclick=deleterecord('student','id','$master->id')><i class='fa fa-trash-o'></i>Delete</a>";
+            $row[] = "<a href='javascript:;' class='label label-sm label-danger'  onclick=deleterecord('attendancemaster','id','$master->id')><i class='fa fa-trash-o'></i>Delete</a>";
 
             $data[] = $row;
         }

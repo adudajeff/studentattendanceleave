@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Students extends CI_Controller
 {
     public $table = 'student';
-    public $column_order = array(null, null, 'regno', 'name', 'email', 'admission_date', 'mobile', null, null); //set column field database for datatable orderable
+    public $column_order = array(null, null, 'regno', 'name', 'email', 'admission_date', 'mobile', 'mobile', null, null); //set column field database for datatable orderable
     public $column_search = array('regno', 'name', 'email', 'admission_date', 'mobile'); //set column field database for datatable searchable
     public $order = array('id' => 'asc'); // default order
 
@@ -102,7 +102,9 @@ class Students extends CI_Controller
             'mobile' => $this->input->post('mobile'),
             'course_id' => $this->input->post('course_id'),
             'dept_id' => $this->input->post('deptcode'),
+            'year' => $this->input->post('year'),
             'companycode' => $companycode,
+
         );
         // $this->db->where('sid',$this->input->get('sid') );
         $this->db->insert('student', $data);
@@ -127,6 +129,7 @@ class Students extends CI_Controller
             'admission_date' => $this->input->post('admission_date'),
             'mobile' => $this->input->post('mobile'),
             'course_id' => $this->input->post('course_id'),
+            'year' => $this->input->post('year'),
             'dept_id' => $this->input->post('deptcode'),
 
         );

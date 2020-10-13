@@ -4,9 +4,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Attendancemaster extends CI_Model
 {
     public $table = 'attendancemaster';
-    public $column_order = array(null, null, 'regno', 'unit', 'course_id', 'signindate', 'time', 'room', 'status', null, null); //set column field database for datatable orderable
-    public $column_search = array('course_id', 'course_id', 'signindate'); //set column field database for datatable searchable
-    public $order = array('id' => 'asc'); // default order
+    public $column_order = array(null, null, 'attendancemaster.regno', 'attendancemaster.unit', 'attendancemaster.course_id', 'attendancemaster.signindate', 'attendancemaster.time', 'attendancemaster.room', 'attendancemaster.status', null, null); //set column field database for datatable orderable
+    public $column_search = array('attendancemaster.course_id', 'attendancemaster.course_id', 'attendancemaster.signindate'); //set column field database for datatable searchable
+    public $order = array('attendancemaster.id' => 'asc'); // default order
 
     public function __construct()
     {
@@ -17,7 +17,9 @@ class Attendancemaster extends CI_Model
     private function _get_datatables_query()
     {
 
-        $this->db->from($this->table);
+        $this->db->select('*');
+        $this->db->from("attendancemaster");
+        $this->db->join('student', 'student.regno = attendancemaster.regno');
 
         $i = 0;
 
@@ -72,7 +74,10 @@ class Attendancemaster extends CI_Model
 
     public function count_all()
     {
-        $this->db->from($this->table);
+        $this->db->select('*');
+        $this->db->from("attendancemaster");
+        $this->db->join('student', 'student.regno = attendancemaster.regno');
+
         return $this->db->count_all_results();
     }
 

@@ -19,7 +19,7 @@
 		     <!--links --->
 			  <div class="row " style="border-bottom:1px solid blue;padding:3px; margin:5px;">
 				<div class="btn-set pull-right">
-					<a href="<?php echo base_url(); ?>department/newdepartment" class="btn  blue bold"><i class="fa fa-plus"></i>Add Department</a>
+					<a href="<?php echo base_url(); ?>Attendanceregister" class="btn  blue bold"><i class="fa fa-plus"></i>Go to Unit/Class Reporting</a>
 
 				</div>
 			 </div>
@@ -38,12 +38,16 @@
 					<th><input type="checkbox" id="example-select-all"></th>
 					<th>No</th>
 					<th>regno</th>
+					<th>name</th>
 					<th>unit</th>
 					<th>Course</th>
 					<th>signindate</th>
 					<th>time</th>
 					<th>room</th>
 					<th>status</th>
+					<th>Absent</th>
+					<th>Present</th>
+					<th>Leave</th>
 					<th>Edit</th>
 					<th>Delete</th>
 
@@ -58,12 +62,16 @@
 					<th><input type="checkbox" id="example-select-all2"></th>
 					<th>No</th>
 					<th>regno</th>
+					<th>name</th>
 					<th>unit</th>
 					<th>Course</th>
 					<th>signindate</th>
 					<th>time</th>
 					<th>room</th>
 					<th>status</th>
+					<th>Absent</th>
+					<th>Present</th>
+					<th>Leave</th>
 					<th>Edit</th>
 					<th>Delete</th>
 				</tr>

@@ -40,6 +40,7 @@
 					<th>email</th>
 					<th>admission_date</th>
 					<th>Mobile</th>
+					<th>Year</th>
 					<th>Edit</th>
 					<th>Delete</th>
 				</tr>
@@ -57,6 +58,7 @@
 					<th>email</th>
 					<th>admission_date</th>
 					<th>Mobile</th>
+					<th>Year</th>
 					<th>Edit</th>
 					<th>Delete</th>
 				</tr>

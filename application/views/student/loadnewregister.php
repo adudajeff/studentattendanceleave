@@ -53,8 +53,8 @@ $this->load->library('session');
 																		<h5 class="form-section font-blue bold" style="padding:0px;margin:5px">Register Informations</h5>
 																		<div class="col-md-12 ">
 																				<div class="form-group">
-																					<label>Reg No
-																					<span class="required"> * </span> <?php echo $_SESSION['regno']; ?>
+																					<label>Reg No:
+																					<span class="required"></span> <?php echo $_SESSION['regno']; ?>
 																					</label>
 
 																					<input type="hidden" id="url" name="url" value="<?php echo base_url(); ?>" class="form-control">
@@ -64,8 +64,8 @@ $this->load->library('session');
 																	<div class="row">
 																			<div class="col-md-12">
 																				<div class="form-group">
-																					<label>Student Name
-																					<span class="required"> * </span></span> <?php echo $_SESSION['name']; ?>
+																					<label>Student Name:
+																					<span class="required"> </span></span> <?php echo $_SESSION['name']; ?>
 																					</label>
 
 																				</div>
@@ -74,8 +74,19 @@ $this->load->library('session');
 																	<div class="row">
 																			<div class="col-md-12">
 																				<div class="form-group">
-																					<label>Course NAME
-																					<span class="required"> * </span></span> <?php echo $_SESSION['course']; ?>
+																					<label>Year:
+																					<span class="required"> </span></span> <?php echo $_SESSION['year']; ?>
+																					</label>
+
+																				</div>
+																			</div>
+																	</div>
+
+																	<div class="row">
+																			<div class="col-md-12">
+																				<div class="form-group">
+																					<label>Course NAME:
+																					<span class="required"></span></span> <?php echo $_SESSION['course']; ?>
 																					</label>
 
 																				</div>
@@ -120,7 +131,7 @@ $this->load->library('session');
 																					<tr>
 																			        <thead>
 																					<?php
-$query = $this->db->query("Select timetable.*,course.*,unit.* from timetable inner join course on course.course_id=timetable.course_id inner join unit on unit.unitcode=timetable.unit");
+$query = $this->db->query("Select timetable.*,course.*,unit.* from timetable inner join course on course.course_id=timetable.course_id inner join unit on unit.unitcode=timetable.unit order by timetable.lessondate asc");
 $datadesig = $query->result();
 $i = 1;
 foreach ($datadesig as $value) {
@@ -131,10 +142,19 @@ foreach ($datadesig as $value) {
     $query = $this->db->query("Select * from attendancemaster where course_id='{$course_id}' and unit='{$unit}' and regno='{$regno}'");
     $data2 = $query->result();
     $k = 0;
+
     if ($query->num_rows() > 0) {
         $k = 1;
-    }
+        $absent = "NO";
+        $present = "Yes";
+        $Leave = "No";
 
+    } else {
+        $absent = "NO";
+        $present = "NO";
+        $Leave = "No";
+
+    }
     ?>
 																				    <tr >
 																						<td>
@@ -153,21 +173,37 @@ foreach ($datadesig as $value) {
 																							<?php echo $value->roomnumber; ?>
 																						</td>
 																						<td>
-																							_
-																						</td>
-																						<td>
-																							_
-																						</td>
-																						<td>
-																						_
+																						<?php
+echo $present;
+    ?>
 																						</td>
 																						<td>
 																						<?php
+echo $absent;
+    ?>
+
+																						</td>
+																						<td>
+																						<?php
+echo $Leave;
+    ?>
+																						</td>
+																						<td class="text-primary">
+																						<?php
 if ($k == 1) {
         echo "Signed";
+    } elseif (date("Y-m-d", strtotime($value->lessondate)) == date("Y-m-d")) {
+        ?>
+	<button  class="btn blue" onclick="register('<?php echo $_SESSION['regno']; ?>','<?php echo $value->course_id; ?>','<?php echo $value->unit; ?>','<?php echo $value->roomnumber; ?>','<?php echo $value->lessontime; ?>','<?php echo $value->lessondate; ?>');" id="<?php echo $i++; ?>"><i class="fa fa-check"></i> sign in</button>
+	<?php
+} elseif ((date("Y-m-d", strtotime($value->lessondate)) < date("Y-m-d")) and ($present == "NO")) {
+        ?>
+	     Missed
+	<?php
+
     } else {
         ?>
-																							<button  class="btn blue" onclick="register('<?php echo $_SESSION['regno']; ?>','<?php echo $value->course_id; ?>','<?php echo $value->unit; ?>','<?php echo $value->roomnumber; ?>','<?php echo $value->lessontime; ?>','<?php echo $value->lessondate; ?>');" id="<?php echo $i++; ?>"><i class="fa fa-check"></i> sign in</button>
+         Upcoming Lesson
 																						<?php
 }
     ?>

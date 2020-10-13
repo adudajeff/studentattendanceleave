@@ -466,7 +466,7 @@ function addcourse()
 
 		},
 
-		url: url + "course/addstudent",
+		url: url + "course/addcourse",
 		success: function (data)
 		{
 			$('#succ').text("Record Successfully Added");
@@ -505,6 +505,7 @@ function addstudent()
 	var course_id = $("#course_id").val();
 	var mobile = $("#mobile").val();
 	var deptcode = $("#deptcode").val();
+	var year = $("#year").val();
 
 
 	$.ajax({
@@ -517,6 +518,7 @@ function addstudent()
 			course_id: course_id,
 			mobile: mobile,
 			deptcode: deptcode,
+			year: year,
 
 		},
 
@@ -538,6 +540,7 @@ function addstudent()
 				$("#course_id").val("");
 				$("#mobile").val("");
 				$("#deptcode").val("");
+				$("#year").val("");
 
 
 
@@ -565,6 +568,7 @@ function editstudent()
 	var course_id = $("#course_id").val();
 	var mobile = $("#mobile").val();
 	var deptcode = $("#deptcode").val();
+	var year = $("#year").val();
 
 	$.ajax({
 		type: "POST",
@@ -576,6 +580,8 @@ function editstudent()
 			course_id: course_id,
 			mobile: mobile,
 			deptcode: deptcode,
+			year: year,
+
 
 		},
 
@@ -596,6 +602,7 @@ function editstudent()
 				$("#course_id").val("");
 				$("#mobile").val("");
 				$("#deptcode").val("");
+				$("#year").val("");
 			} else
 			{
 				showerror();

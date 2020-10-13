@@ -53,7 +53,7 @@ class Application_model extends CI_Model
             $_SESSION['email'] = $value->email;
             $_SESSION['mobile'] = $value->mobile;
             $_SESSION['course'] = $value->description;
-
+            $_SESSION['year'] = $value->year;
         }
     }
     //Global delete Function. Result is accessed on the page by javascript

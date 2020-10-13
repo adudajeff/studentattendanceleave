@@ -115,6 +115,21 @@ foreach ($datadesig as $value) {
 																		</div>
 																	</div>
 																	<div class="row">
+																	 <div class="col-md-12">
+																				     <div class="form-group">
+																						<label>Year
+																						<span class="required"> * </span>
+																						</label>
+																						<select name="year" id="year" class="form-control border-blue" required >
+																							<option value="1"> Year 1</option>
+																							<option value="2"> Year 2</option>
+																							<option value="3"> Year 3</option>
+																							<option value="4"> Year 4</option>
+																						</select>
+																					</div>
+																		</div>
+																	</div>
+																	<div class="row">
 																			<div class="col-md-12">
 																				<div class="form-group">
 																					<label>Email

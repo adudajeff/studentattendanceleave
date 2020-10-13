@@ -575,7 +575,8 @@ $(function ()
 			admission_date: "required",
 			name: "required",
 			course_id: "required",
-			deptcode: "required"
+			deptcode: "required",
+			year: "required"
 
 		},
 
@@ -586,7 +587,8 @@ $(function ()
 			admission_date: "Please Select Admission Date",
 			name: "Please Enter Name",
 			course_id: "PLease Enter Course",
-			deptcode: "PLease Enter Department"
+			deptcode: "PLease Enter Department",
+			year: "PLease Enter year"
 
 		},
 
@@ -637,7 +639,8 @@ $(function ()
 			admission_date: "required",
 			name: "required",
 			course_id: "required",
-			deptcode: "required"
+			deptcode: "required",
+			year: "required"
 
 		},
 
@@ -648,7 +651,8 @@ $(function ()
 			admission_date: "Please Select Admission Date",
 			name: "Please Enter Name",
 			course_id: "PLease Enter Course",
-			deptcode: "PLease Enter Department"
+			deptcode: "PLease Enter Department",
+			year: "PLease Enter Year"
 
 		},
 

@@ -11,7 +11,7 @@ Developed by Geofrey Aduda
 
     <head>
         <meta charset="utf-8" />
-        <title>Leave Manager | Student Attendance and Leave Management Information System </title>
+        <title>JKUAT Staff Leave and Student Attendance Management Information System </title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="" name="description" />
@@ -306,11 +306,11 @@ Developed by Geofrey Aduda
                                                             <a href="<?php echo base_url(); ?>course"> Courses </a>
                                                         </li>
                                                         <li>
-                                                            <a href="<?php echo base_url(); ?>students">Attendance Register </a>
+                                                            <a href="<?php echo base_url(); ?>Attendanceregister/classregister">Attendance Register </a>
                                                         </li>
-                                                        <li>
+                                                       <!-- <li>
                                                             <a href="<?php echo base_url(); ?>department"> Student Leave </a>
-                                                        </li>
+                                                        </li>-->
                                                     </ul>
                                                 </div>
                                             </div>
