@@ -145,7 +145,7 @@ foreach ($datadesig as $value) {
     $k = 0;
 
     $absent = "N";
-    $present = "Y";
+    $present = "N";
     $Leave = "N";
 
     if ($query->num_rows() > 0) {
@@ -167,7 +167,7 @@ foreach ($datadesig as $value) {
 																						<?php echo $value->description; ?>
 																						</td>
 																						<td>
-																							<?php echo $value->lessondate . "" . date('1'); ?>
+																							<?php echo $value->lessondate; ?>
 																						</td>
 																						<td>
 																							<?php echo $value->lessontime; ?>

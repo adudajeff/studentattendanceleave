@@ -230,17 +230,19 @@ Developed by Geofrey Aduda
                                 </a>
 
                             </li>
+                            <?php if ($_SESSION['settings'] == "Y") {?>
 							<li class="menu-dropdown classic-menu-dropdown">
                                 <a href="<?php echo base_url(); ?>applyleave" class="font-red bold"> Apply Staff Leave
                                     <span class="arrow"></span>
                                 </a>
                             </li>
+                            <?php }?>
                             	<li class="menu-dropdown classic-menu-dropdown">
                                 <a href="<?php echo base_url(); ?>Attendanceregister/classregister" class="font-red bold">Report to class/Unit
                                     <span class="arrow"></span>
                                 </a>
                             </li>
-
+                            <?php if ($_SESSION['settings'] == "Y") {?>
                             <li class="menu-dropdown mega-menu-dropdown  ">
                                 <a href="javascript:;"> Leave Settings
                                     <span class="arrow"></span>
@@ -288,7 +290,7 @@ Developed by Geofrey Aduda
                                 </ul>
                             </li>
 
-
+                            <?php }?>
                             <li class="menu-dropdown mega-menu-dropdown  ">
                                 <a href="javascript:;"> Student Attendance
                                     <span class="arrow"></span>
@@ -299,12 +301,14 @@ Developed by Geofrey Aduda
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <ul class="mega-menu-submenu">
+                                                    <?php if ($_SESSION['settings'] == "Y") {?>
                                                          <li>
                                                             <a href="<?php echo base_url(); ?>student">Student Managemnt </a>
                                                         </li>
                                                         <li>
                                                             <a href="<?php echo base_url(); ?>course"> Courses </a>
                                                         </li>
+                                                    <?php }?>
                                                         <li>
                                                             <a href="<?php echo base_url(); ?>Attendanceregister/classregister">Attendance Register </a>
                                                         </li>
@@ -318,7 +322,7 @@ Developed by Geofrey Aduda
                                     </li>
                                 </ul>
                             </li>
-
+                            <?php if ($_SESSION['settings'] == "Y") {?>
                             <li class="menu-dropdown mega-menu-dropdown  mega-menu-full">
                                 <a href="javascript:;"> Leave Reports
                                     <span class="arrow"></span>
@@ -350,6 +354,7 @@ Developed by Geofrey Aduda
                                     </li>
                                 </ul>
                             </li>
+                            <?php }?>
 
                         </ul>
                     </div>
